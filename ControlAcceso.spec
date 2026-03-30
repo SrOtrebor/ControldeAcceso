@@ -40,6 +40,13 @@ a = Analysis(
         'xlsxwriter',
         # Carga de .env
         'dotenv',
+        # Ventana nativa (pywebview)
+        'webview',
+        'webview.platforms.winforms',
+        'clr',
+        'pythonnet',
+        'System',
+        'System.Windows.Forms',
     ],
     hookspath=[],
     hooksconfig={},

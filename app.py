@@ -13,7 +13,7 @@ import os
 import smtplib
 import sys
 import time
-import webbrowser
+import threading
 from datetime import datetime
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -774,6 +774,31 @@ def get_daily_stats():
 # PUNTO DE ENTRADA
 # =============================================================================
 
+import webview
+
+def iniciar_flask():
+    """
+    Arranca el servidor Flask en un hilo de fondo (daemon).
+    Al ser daemon, el hilo se cierra automáticamente cuando se cierra
+    la ventana de pywebview.
+    """
+    app.run(host='127.0.0.1', port=5000, use_reloader=False)
+
 if __name__ == '__main__':
-    webbrowser.open('http://127.0.0.1:5000/')
-    app.run(host='127.0.0.1', port=5000)
+    # Iniciar Flask en un hilo separado para no bloquear la ventana
+    servidor = threading.Thread(target=iniciar_flask, daemon=True)
+    servidor.start()
+
+    # Pequeña pausa para asegurarse de que Flask esté listo
+    time.sleep(1.5)
+
+    # Abrir la app en una ventana nativa sin barra de URL ni controles del navegador
+    ventana = webview.create_window(
+        title='Control de Acceso — Alcorta Shopping',
+        url='http://127.0.0.1:5000/',
+        width=1280,
+        height=800,
+        min_size=(900, 600),
+        resizable=True,
+    )
+    webview.start()
