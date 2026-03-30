@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Control de Acceso - Panel de Admin</title>
+    <title>Control de Acceso - Panel de Administración</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    <!-- Cabecera con nombre de usuario y botón de cierre de sesión -->
     <header class="header">
         <div class="header-left">
             <h2>Panel de Administración</h2>
@@ -25,15 +26,20 @@
     </header>
 
     <div class="main-content">
+        <!-- Panel izquierdo: acciones administrativas -->
         <div class="left-panel">
+
+            <!-- Sección 1: Subir archivos Excel de listas FAP y FAO -->
             <div class="admin-section">
                 <h2>Cargar Listas FAP y FAO</h2>
                 <div class="file-upload-container">
+                    <!-- Input FAP oculto, activado por su label -->
                     <div class="file-input-wrapper">
                         <input type="file" id="fapFileInput" accept=".xlsx" class="file-input-hidden">
                         <label for="fapFileInput" class="file-upload-label">Seleccionar FAP</label>
                         <span id="fapFileName" class="file-name-display">Ningún archivo seleccionado</span>
                     </div>
+                    <!-- Input FAO oculto, activado por su label -->
                     <div class="file-input-wrapper">
                         <input type="file" id="faoFileInput" accept=".xlsx" class="file-input-hidden">
                         <label for="faoFileInput" class="file-upload-label">Seleccionar FAO</label>
@@ -43,20 +49,23 @@
                 <button id="uploadExcelBtn" class="form-button">Subir Archivos</button>
                 <p id="uploadStatus" class="status-message"></p>
             </div>
-            
+
+            <!-- Sección 2: Agregar excepción de acceso manual -->
             <div class="admin-section">
                 <h2>Autorizar Excepción</h2>
                 <form class="excepcion-form" onsubmit="return false;">
-                    <input type="text" id="nombreExcepcion" placeholder="Nombre" autocomplete="off">
-                    <input type="text" id="apellidoExcepcion" placeholder="Apellido" autocomplete="off">
-                    <input type="text" id="dniExcepcion" placeholder="DNI (sin puntos)" autocomplete="off">
-                    <input type="text" id="localExcepcion" placeholder="Local/Marca" autocomplete="off">
-                    <input type="text" id="autorizaExcepcion" placeholder="Quién Autoriza (ej. Gerencia)" autocomplete="off">
+                    <input type="text" id="nombreExcepcion"    placeholder="Nombre"                      autocomplete="off">
+                    <input type="text" id="apellidoExcepcion"  placeholder="Apellido"                    autocomplete="off">
+                    <input type="text" id="dniExcepcion"       placeholder="DNI (sin puntos)"            autocomplete="off">
+                    <input type="text" id="localExcepcion"     placeholder="Local / Marca"               autocomplete="off">
+                    <input type="text" id="autorizaExcepcion"  placeholder="Quién Autoriza (ej. Gerencia)" autocomplete="off">
                 </form>
                 <button id="addExcepcionBtn" class="form-button">Guardar Excepción</button>
                 <p id="excepcionStatus" class="status-message"></p>
             </div>
         </div>
+
+        <!-- Panel derecho: listado del día y envío de reporte -->
         <div class="right-panel">
             <h2>Listado Diario de Ingresos</h2>
             <div class="ingresos-list-container">
@@ -74,13 +83,14 @@
                     <tbody id="adminIngresosListBody"></tbody>
                 </table>
             </div>
+            <!-- Botón para enviar el reporte del día por email -->
             <button id="enviarReporteBtn" class="report-button">Enviar Reporte por Email</button>
             <p id="reporteStatus" class="status-message"></p>
         </div>
     </div>
-    
+
     <footer class="app-footer">
-        <p>Desarrollado por Roberto Laforcada - Copyright © 2025</p>
+        <p>Desarrollado por Roberto Laforcada &mdash; Copyright &copy; 2025</p>
     </footer>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>

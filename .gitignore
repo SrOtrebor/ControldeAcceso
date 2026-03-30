@@ -1,0 +1,19 @@
+# Variables de entorno — NUNCA subir al repositorio
+.env
+
+# Archivos temporales y compilados de Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Directorio de build de PyInstaller
+build/
+dist/
+*.spec
+
+# Reportes temporales generados por la app
+*_formateado.xlsx
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db

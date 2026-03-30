@@ -1,81 +1,573 @@
+/* =============================================================================
+   style.css — Control de Acceso Alcorta Shopping
+   =============================================================================
+   Hoja de estilos principal. Define el sistema de diseño completo:
+   variables de color, tipografía, layout responsivo y componentes de UI.
+   Usa la fuente Poppins (Google Fonts) para una apariencia profesional.
+
+   Autor: Roberto Laforcada
+   ============================================================================= */
+
 /* --- Importar Fuente y Variables de Color --- */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
 :root {
-    --color-primario-oscuro: #1b8876;
-    --color-acento-azul: #074552;
-    --color-fondo-claro: #F0F2F5;
-    --color-blanco: #FFFFFF;
-    --color-texto: #333333;
-    --color-texto-claro: #FFFFFF;
-    --color-exito: #28a745;
-    --color-error: #dc3545;
-    --color-fondo-exito: #eaf7ed;
-    --color-fondo-error: #fdecea;
-    --color-borde-suave: #e0e0e0;
+    /* Paleta de colores principal */
+    --color-primario-oscuro:  #1b8876;
+    --color-acento-azul:      #074552;
+    --color-fondo-claro:      #F0F2F5;
+    --color-blanco:           #FFFFFF;
+    --color-texto:            #333333;
+    --color-texto-claro:      #FFFFFF;
+
+    /* Estados de resultado */
+    --color-exito:            #28a745;
+    --color-error:            #dc3545;
+    --color-fondo-exito:      #eaf7ed;
+    --color-fondo-error:      #fdecea;
+
+    /* Bordes y elementos neutros */
+    --color-borde-suave:      #e0e0e0;
+    --color-gris-secundario:  #6c757d;
 }
-/* --- Estilos Generales --- */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Poppins', sans-serif; background-color: var(--color-fondo-claro); color: var(--color-texto); display: flex; flex-direction: column; min-height: 100vh; }
-/* --- Estructura Principal --- */
-.header { width: 100%; background-color: var(--color-primario-oscuro); padding: 1rem 2rem; color: var(--color-texto-claro); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); display: flex; justify-content: space-between; align-items: center; }
-.header-left h2, .header-left h3 { margin: 0; }
-.header-left h3 { font-weight: 400; opacity: 0.8; }
-.header-right { display: flex; align-items: center; gap: 1.5rem; }
-.logo { max-height: 50px; width: auto; }
-.user-info span { margin-right: 1rem; }
-.header-button { padding: 0.5rem 1rem; background-color: var(--color-acento-azul); color: var(--color-texto-claro); border: none; border-radius: 6px; cursor: pointer; font-weight: 500; transition: background-color 0.3s; }
-.header-button:hover { background-color: #0096C7; }
-.main-content { display: flex; gap: 2rem; padding: 2rem; width: 100%; }
-.left-panel, .right-panel { background-color: var(--color-blanco); padding: 2rem; border-radius: 12px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08); }
-.left-panel { flex: 1; display: flex; flex-direction: column; }
-.right-panel { flex: 2; }
-/* --- Componentes Específicos --- */
-.result-display { border: 2px solid var(--color-borde-suave); border-radius: 8px; padding: 2rem; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; transition: all 0.3s ease-in-out; }
-.result-display p { margin: 0.25rem 0; }
-#mensajeResultado { font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; }
-#nombrePersona { font-size: 1.5rem; }
-#infoLocal, #infoTarea, #infoVence { font-size: 1.1rem; opacity: 0.8; }
-.luz-green { background-color: var(--color-exito); border-color: var(--color-exito); color: var(--color-blanco); }
-.luz-red { background-color: var(--color-error); border-color: var(--color-error); color: var(--color-blanco); }
-.input-section { margin-top: 1.5rem; }
-#dniInput { width: 100%; padding: 12px 15px; border: 2px solid var(--color-borde-suave); border-radius: 8px; font-size: 1.1rem; }
-#dniInput:focus { outline: none; border-color: var(--color-acento-azul); }
-/* --- Tabla de Ingresos --- */
-.right-panel h2 { margin-bottom: 1rem; color: var(--color-primario-oscuro); }
-.ingresos-list-container { max-height: 60vh; overflow-y: auto; }
-.ingresos-table { width: 100%; border-collapse: collapse; }
-.ingresos-table th, .ingresos-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--color-borde-suave); }
-.ingresos-table thead { position: sticky; top: 0; background-color: var(--color-blanco); z-index: 10; }
-.ingresos-table th { font-weight: 600; color: var(--color-texto); }
-.ingresos-table tr.fila-verde { background-color: var(--color-fondo-exito); }
-.ingresos-table tr.fila-verde:hover { background-color: #d4edda; }
-.ingresos-table tr.fila-roja { background-color: var(--color-fondo-error); }
-.ingresos-table tr.fila-roja:hover { background-color: #f5c6cb; }
+
+/* =============================================================================
+   RESET Y ESTILOS BASE
+   ============================================================================= */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--color-fondo-claro);
+    color: var(--color-texto);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* =============================================================================
+   CABECERA (HEADER)
+   ============================================================================= */
+.header {
+    width: 100%;
+    background-color: var(--color-primario-oscuro);
+    padding: 1rem 2rem;
+    color: var(--color-texto-claro);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;      /* Permite que los elementos bajen en pantallas chicas */
+    gap: 0.5rem;
+}
+
+.header-left h2,
+.header-left h3 {
+    margin: 0;
+}
+
+.header-left h3 {
+    font-weight: 400;
+    opacity: 0.8;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.logo {
+    max-height: 50px;
+    width: auto;
+}
+
+.user-info span {
+    margin-right: 1rem;
+}
+
+/* Botón de la cabecera (Administración / Cerrar Sesión) */
+.header-button {
+    padding: 0.5rem 1rem;
+    background-color: var(--color-acento-azul);
+    color: var(--color-texto-claro);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+    white-space: nowrap;
+}
+
+.header-button:hover {
+    background-color: #0096C7;
+}
+
+/* =============================================================================
+   LAYOUT PRINCIPAL (dos paneles)
+   ============================================================================= */
+.main-content {
+    display: flex;
+    gap: 2rem;
+    padding: 2rem;
+    width: 100%;
+    flex: 1;              /* Ocupa el espacio restante entre header y footer */
+}
+
+.left-panel,
+.right-panel {
+    background-color: var(--color-blanco);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.left-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.right-panel {
+    flex: 2;
+}
+
+/* =============================================================================
+   PANEL DE RESULTADO (pantalla de PERMITIDO / DENEGADO)
+   ============================================================================= */
+.result-display {
+    border: 2px solid var(--color-borde-suave);
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+    min-height: 200px;
+}
+
+.result-display p {
+    margin: 0.25rem 0;
+}
+
+/* Mensaje principal (ej. ACCESO PERMITIDO) */
+#mensajeResultado {
+    font-size: clamp(1.4rem, 3vw, 2.5rem); /* Responsivo */
+    font-weight: 700;
+    margin-bottom: 1rem;
+    word-break: break-word;
+}
+
+#nombrePersona {
+    font-size: 1.5rem;
+}
+
+#infoLocal,
+#infoTarea,
+#infoVence {
+    font-size: 1.1rem;
+    opacity: 0.85;
+}
+
+/* Verde = acceso permitido */
+.luz-green {
+    background-color: var(--color-exito);
+    border-color: var(--color-exito);
+    color: var(--color-blanco);
+}
+
+/* Rojo = acceso denegado */
+.luz-red {
+    background-color: var(--color-error);
+    border-color: var(--color-error);
+    color: var(--color-blanco);
+}
+
+/* =============================================================================
+   INPUT DE DNI
+   ============================================================================= */
+.input-section {
+    margin-top: 1.5rem;
+}
+
+#dniInput {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid var(--color-borde-suave);
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-family: 'Poppins', sans-serif;
+    transition: border-color 0.2s;
+}
+
+#dniInput:focus {
+    outline: none;
+    border-color: var(--color-acento-azul);
+}
+
+/* =============================================================================
+   TABLA DE INGRESOS DIARIOS
+   ============================================================================= */
+.right-panel h2 {
+    margin-bottom: 1rem;
+    color: var(--color-primario-oscuro);
+}
+
+/* Contenedor con scroll vertical para la tabla */
+.ingresos-list-container {
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.ingresos-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.ingresos-table th,
+.ingresos-table td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--color-borde-suave);
+    font-size: 0.9rem;
+}
+
+/* Encabezado fijo al hacer scroll en la tabla */
+.ingresos-table thead {
+    position: sticky;
+    top: 0;
+    background-color: var(--color-blanco);
+    z-index: 10;
+}
+
+.ingresos-table th {
+    font-weight: 600;
+    color: var(--color-texto);
+}
+
+/* Colores de filas por resultado de acceso */
+.ingresos-table tr.fila-verde             { background-color: var(--color-fondo-exito); }
+.ingresos-table tr.fila-verde:hover       { background-color: #d4edda; }
+.ingresos-table tr.fila-roja              { background-color: var(--color-fondo-error); }
+.ingresos-table tr.fila-roja:hover        { background-color: #f5c6cb; }
+
+/* Las filas FAO llevan un borde izquierdo amarillo indicador */
 .fila-fao { border-left: 5px solid #FFC107; }
-/* --- Estilos para Formularios y Admin --- */
-.form-container { max-width: 450px; margin: 2rem auto; text-align: left; }
-.form-container h2, .admin-section h2 { text-align: center; margin-bottom: 2rem; color: var(--color-primario-oscuro); }
-.input-group, .upload-section { margin-bottom: 1.5rem; }
-.input-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
-.input-group input, .excepcion-form input { width: 100%; padding: 12px 15px; border: 2px solid var(--color-borde-suave); border-radius: 8px; font-size: 1rem; font-family: 'Poppins', sans-serif; }
-.input-group input:focus, .excepcion-form input:focus { outline: none; border-color: var(--color-acento-azul); }
-.form-button { width: 100%; padding: 12px 25px; background-color: var(--color-acento-azul); color: var(--color-texto-claro); border: none; border-radius: 8px; cursor: pointer; font-size: 1.1rem; font-weight: 600; transition: background-color 0.3s; margin-top: 1rem; }
-.form-button:hover { background-color: #0096C7; }
-.secondary-button { background-color: #6c757d; margin-top: 0.75rem; }
-.secondary-button:hover { background-color: #5a6268; }
-.error-message, .status-message { color: var(--color-error); text-align: center; margin-top: 1rem; font-weight: 500; min-height: 1.2em; }
-.status-message.success-message { color: var(--color-exito); }
-.admin-section { width: 100%; border: 2px solid var(--color-borde-suave); border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem; }
-.upload-section input[type="file"] { border-style: dashed; }
-.excepcion-form { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
-.excepcion-form input:last-child { grid-column: 1 / -1; }
-.report-button { width: 100%; margin-top: 1rem; padding: 12px 25px; background-color: #6c757d; color: var(--color-texto-claro); border: none; border-radius: 8px; cursor: pointer; font-size: 1.1rem; font-weight: 600; }
-.report-button:hover { background-color: #5a6268; }
-/* --- Estilos para Contadores y Footer --- */
-.stats-container { display: flex; gap: 1rem; margin-bottom: 2rem; text-align: center; }
-.stat-box { flex: 1; background-color: #f8f9fa; padding: 1rem; border-radius: 8px; border: 1px solid var(--color-borde-suave); }
-.stat-value { display: block; font-size: 2rem; font-weight: 700; }
-.stat-label { font-size: 0.9rem; color: #6c757d; }
+
+/* =============================================================================
+   FORMULARIOS (Login y Panel Admin)
+   ============================================================================= */
+
+/* Contenedor centrado para el formulario de login */
+.form-container {
+    max-width: 450px;
+    margin: 2rem auto;
+    text-align: left;
+    background-color: var(--color-blanco);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.form-container h2,
+.admin-section h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--color-primario-oscuro);
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.input-group input,
+.excepcion-form input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid var(--color-borde-suave);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    transition: border-color 0.2s;
+}
+
+.input-group input:focus,
+.excepcion-form input:focus {
+    outline: none;
+    border-color: var(--color-acento-azul);
+}
+
+/* Botón de acción principal (Ingresar, Subir, etc.) */
+.form-button {
+    width: 100%;
+    padding: 12px 25px;
+    background-color: var(--color-acento-azul);
+    color: var(--color-texto-claro);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    transition: background-color 0.3s;
+    margin-top: 1rem;
+}
+
+.form-button:hover {
+    background-color: #0096C7;
+}
+
+/* Botón secundario (Volver, etc.) */
+.secondary-button {
+    background-color: var(--color-gris-secundario);
+    margin-top: 0.75rem;
+}
+
+.secondary-button:hover {
+    background-color: #5a6268;
+}
+
+/* Mensajes de estado y error bajo los formularios */
+.error-message,
+.status-message {
+    color: var(--color-error);
+    text-align: center;
+    margin-top: 1rem;
+    font-weight: 500;
+    min-height: 1.2em;   /* Evita el salto de layout al aparecer el msg */
+}
+
+.status-message.success-message {
+    color: var(--color-exito);
+}
+
+/* =============================================================================
+   PANEL DE ADMINISTRACIÓN (admin.html)
+   ============================================================================= */
+
+/* Sección con borde (agrupador de acciones) */
+.admin-section {
+    width: 100%;
+    border: 2px solid var(--color-borde-suave);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Grid de inputs del formulario de excepción */
+.excepcion-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* El último campo de la excepción ocupa toda la fila */
+.excepcion-form input:last-child {
+    grid-column: 1 / -1;
+}
+
+/* Zona de carga de archivos */
+.file-upload-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.file-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* El input de archivo nativo está oculto; se usa el label como disparador */
+.file-input-hidden {
+    display: none;
+}
+
+.file-upload-label {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: var(--color-acento-azul);
+    color: var(--color-texto-claro);
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+    white-space: nowrap;
+}
+
+.file-upload-label:hover {
+    background-color: #0096C7;
+}
+
+.file-name-display {
+    font-size: 0.85rem;
+    color: var(--color-gris-secundario);
+    font-style: italic;
+}
+
+/* Botón de envío de reporte por email */
+.report-button {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 12px 25px;
+    background-color: var(--color-gris-secundario);
+    color: var(--color-texto-claro);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    transition: background-color 0.3s;
+}
+
+.report-button:hover {
+    background-color: #5a6268;
+}
+
+/* =============================================================================
+   CONTADORES DE ESTADÍSTICAS (Dashboard)
+   ============================================================================= */
+.stats-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    flex-wrap: wrap;     /* Apila verticalmente en pantallas chicas */
+}
+
+.stat-box {
+    flex: 1;
+    min-width: 80px;
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--color-borde-suave);
+}
+
+.stat-value {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: var(--color-gris-secundario);
+}
+
 .stat-box.stat-verde .stat-value { color: var(--color-exito); }
-.stat-box.stat-rojo .stat-value { color: var(--color-error); }
-.app-footer { width: 100%; text-align: center; padding: 1.5rem 0; margin-top: auto; color: #888; font-size: 0.85rem; }
+.stat-box.stat-rojo  .stat-value { color: var(--color-error); }
+
+/* =============================================================================
+   PIE DE PÁGINA (FOOTER)
+   ============================================================================= */
+.app-footer {
+    width: 100%;
+    text-align: center;
+    padding: 1.5rem 0;
+    margin-top: auto;   /* Fija el footer al fondo aunque haya poco contenido */
+    color: #888;
+    font-size: 0.85rem;
+}
+
+/* =============================================================================
+   DISEÑO RESPONSIVO
+   ============================================================================= */
+
+/* Tabletas (≤ 900px): apila los paneles verticalmente */
+@media (max-width: 900px) {
+    .main-content {
+        flex-direction: column;
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .left-panel,
+    .right-panel {
+        width: 100%;
+        flex: none;
+    }
+
+    .right-panel {
+        flex: 1;
+    }
+
+    .excepcion-form {
+        grid-template-columns: 1fr;
+    }
+
+    .excepcion-form input:last-child {
+        grid-column: auto;
+    }
+}
+
+/* Móviles (≤ 600px): ajustes adicionales de tipografía y espaciado */
+@media (max-width: 600px) {
+    .header {
+        padding: 0.75rem 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .header-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .logo {
+        max-height: 38px;
+    }
+
+    .main-content {
+        padding: 0.75rem;
+    }
+
+    .left-panel,
+    .right-panel {
+        padding: 1rem;
+    }
+
+    #mensajeResultado {
+        font-size: 1.4rem;
+    }
+
+    .stats-container {
+        gap: 0.5rem;
+    }
+
+    .stat-value {
+        font-size: 1.5rem;
+    }
+
+    .ingresos-table th,
+    .ingresos-table td {
+        padding: 8px 8px;
+        font-size: 0.8rem;
+    }
+
+    .form-container {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+}
